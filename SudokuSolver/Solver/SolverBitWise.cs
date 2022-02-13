@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace SudokuSolver
+namespace SudokuSolver.Solver
 {
     public static class SolverBitWise
     {
