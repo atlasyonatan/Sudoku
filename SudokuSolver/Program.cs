@@ -9,6 +9,7 @@ namespace SudokuSolver
     {
         static void Main(string[] args)
         {
+            //link to generator website: https://qqwing.com/generate.html
             var filePath = @"D:\Repos\Sudoku\SudokuSolver\Puzzles\SudokuEasy1.txt";
             var puzzleString = File.ReadAllText(filePath);
             var puzzle = Serialize.FromBoardString(puzzleString);
@@ -21,10 +22,7 @@ namespace SudokuSolver
                 Console.WriteLine(Serialize.ToBoardString(solution));
                 Console.WriteLine();
             }
-
             Console.ReadLine();
         }
-
-        
     }
 }
