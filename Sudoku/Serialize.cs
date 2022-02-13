@@ -1,8 +1,7 @@
-﻿using Sudoku;
-using System;
+﻿using System;
 using System.Linq;
 
-namespace SudokuSolver
+namespace Sudoku
 {
     public static class Serialize
     {

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Sudoku;
+using SudokuSolver.Solver;
+using System;
 using System.IO;
 
 namespace SudokuSolver
@@ -13,7 +15,7 @@ namespace SudokuSolver
             Console.WriteLine("Puzzle:");
             Console.WriteLine(Serialize.ToBoardString(puzzle));
             Console.WriteLine();
-            var solutions = SolverHashSet.Solve(puzzle);
+            var solutions = new SolverEliminateFill().Solve(puzzle);
             foreach (var solution in solutions)
             {
                 Console.WriteLine(Serialize.ToBoardString(solution));
