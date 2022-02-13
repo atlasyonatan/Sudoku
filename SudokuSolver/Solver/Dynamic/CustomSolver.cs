@@ -21,8 +21,13 @@ namespace SudokuSolver.Solver.Dynamic
 
         protected override void TrySolve(dynamic context)
         {
-            foreach (var solve in _solves)
-                solve(context);
+            context.Changed = true;
+            while (context.Changed)
+            {
+                context.Changed = false;
+                foreach (var solve in _solves)
+                    solve(context);
+            }
         }
     }
 }

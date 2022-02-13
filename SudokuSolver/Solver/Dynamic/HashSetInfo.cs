@@ -27,5 +27,15 @@ namespace SudokuSolver.Solver.Dynamic
             }
             context.HashSetInfo = info;
         }
+
+        public static void Mark(Cell[,] board, HashSet<Cell>[,] info, (int x, int y) c1, Cell value)
+        {
+            //mark it on board
+            board[c1.x, c1.y] = value;
+            //eliminate on info
+            foreach (var c2 in GetAllRelevant(c1.x, c1.y))
+                info[c2.x, c2.y].Remove(board[c1.x, c1.y]);
+            info[c1.x, c1.y] = new HashSet<Cell> { value };
+        }
     }
 }
