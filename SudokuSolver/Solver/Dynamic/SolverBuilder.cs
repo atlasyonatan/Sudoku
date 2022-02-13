@@ -2,7 +2,7 @@
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SudokuSolver.Builder
+namespace SudokuSolver.Solver.Dynamic
 {
     //public class SolverBuilder
     //{

@@ -1,5 +1,5 @@
 ﻿using Sudoku;
-using SudokuSolver.Solver;
+using SudokuSolver.Solver.Dynamic;
 using System;
 using System.IO;
 

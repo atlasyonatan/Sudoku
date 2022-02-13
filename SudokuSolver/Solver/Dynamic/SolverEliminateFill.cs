@@ -1,44 +1,24 @@
 ﻿using Sudoku;
-using SudokuSolver.Builder;
-using SudokuSolver.Solver.Builder;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using static SudokuSolver.Array2D;
 
-namespace SudokuSolver.Solver
+namespace SudokuSolver.Solver.Dynamic
 {
-    public class SolverEliminateFill : SolverBase<HashSet<Cell>>
+    public class SolverEliminateFill : SolverBase
     {
         private static readonly Func<IEnumerable<IEnumerable<(int x, int y)>>>[] GroupsGetMethods = new Func<IEnumerable<IEnumerable<(int x, int y)>>>[] { AllRows, AllColumns, AllBoxes };
-        //protected override void UpdateInfo()
-        //{
-        //    _info = new HashSet<Cell>[_board.GetLength(0), _board.GetLength(1)];
-        //    foreach (var c in _info.AllCoordinates())
-        //        _info[c.x, c.y] = Enumerable.Range(1, 9).Cast<Cell>().ToHashSet();
 
-        //    foreach (var c1 in _board.AllCoordinates().Where(c => _board[c.x, c.y] != Cell.Empty))
-        //    {
-        //        foreach (var c2 in GetAllRelevant(c1.x, c1.y))
-        //            _info[c2.x, c2.y].Remove(_board[c1.x, c1.y]);
-        //        _info[c1.x, c1.y] = new HashSet<Cell> { _board[c1.x, c1.y] };
-        //    }
-        //}
-
-        protected override void Solve()
+        protected override void Initialize(dynamic context)
         {
-            
+            HashSetInfo.Init(context);
         }
 
-        protected override void Initialize(SolverContext<HashSet<Cell>> context)
+        protected override void TrySolve(dynamic context)
         {
-            SolverHelper.InitializeCellInfo(context as SolverContext<CellInfo>);
-        }
-
-        protected override void Solve(SolverContext<HashSet<Cell>> context)
-        {
-            var info = context.Info;
-            var board = context.Board;
+            var info = (HashSet<Cell>[,])context.HashSetInfo;
+            var board = (Cell[,])context.Board;
             var changed = true;
             while (changed)
             {
