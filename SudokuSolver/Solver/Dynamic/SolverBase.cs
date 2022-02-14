@@ -22,7 +22,7 @@ namespace SudokuSolver.Solver.Dynamic
                 }
                 catch
                 {
-                    continue;
+                    
                 }
                 var info = context is IDictionary<string, object> dictionary
                         && dictionary.TryGetValue("HashSetInfo", out var obj)

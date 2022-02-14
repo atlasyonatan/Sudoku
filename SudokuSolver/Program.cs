@@ -20,8 +20,9 @@ namespace SudokuSolver
             Console.WriteLine(Serialize.ToBoardString(puzzle));
             Console.WriteLine();
             var sw = new Stopwatch();
+            var solver = CreateSolver();
             sw.Start();
-            var solutions = CreateSolver().Solve(puzzle);
+            var solutions = solver.Solve(puzzle);
             foreach (var solution in solutions)
             {
                 sw.Stop();
@@ -35,8 +36,8 @@ namespace SudokuSolver
         }
 
         private static ISolver CreateSolver() => new CustomSolverBuilder()
-                .AddInitAction(HashSetInfo.Init)
-                .AddSolveAction(OneOptionLeft.Solve, GroupsFill.Solve)
+                //.AddInitAction(HashSetInfo.Init)
+                //.AddSolveAction(OneOptionLeft.Solve, GroupsFill.Solve)
                 .Build();
     }
 }
