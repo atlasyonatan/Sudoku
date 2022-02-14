@@ -2,9 +2,9 @@
 
 namespace SudokuSolver.Solver.Dynamic
 {
-    public class SolverEliminateFill : CustomSolver
+    public class MySolver : CustomSolver
     {
-        public SolverEliminateFill() : base(
+        public MySolver() : base(
             new Action<dynamic>[]
             {
                 HashSetInfo.Init

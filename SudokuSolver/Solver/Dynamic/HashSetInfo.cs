@@ -14,18 +14,7 @@ namespace SudokuSolver.Solver.Dynamic
         public static void Init(dynamic context)
         {
             var board = (Cell[,])context.Board;
-            var info = new HashSet<Cell>[context.Board.GetLength(0), context.Board.GetLength(1)];
-            foreach (var c in info.AllCoordinates())
-                info[c.x, c.y] = Enumerable.Range(1, 9).Cast<Cell>().ToHashSet();
-
-            foreach (var c1 in board.AllCoordinates().Where(c => board[c.x, c.y] != Cell.Empty))
-            {
-                var cellValue = board[c1.x, c1.y];
-                foreach (var c2 in GetAllRelevant(c1.x, c1.y))
-                    info[c2.x, c2.y].Remove(cellValue);
-                info[c1.x, c1.y] = new HashSet<Cell> { cellValue };
-            }
-            context.HashSetInfo = info;
+            context.HashSetInfo = GetInfo(board);
         }
 
         public static void Mark(Cell[,] board, HashSet<Cell>[,] info, (int x, int y) c1, Cell value)
@@ -36,6 +25,30 @@ namespace SudokuSolver.Solver.Dynamic
             foreach (var c2 in GetAllRelevant(c1.x, c1.y))
                 info[c2.x, c2.y].Remove(board[c1.x, c1.y]);
             info[c1.x, c1.y] = new HashSet<Cell> { value };
+        }
+
+        public static HashSet<Cell>[,] GetInfo(Cell[,] board)
+        {
+            var info = new HashSet<Cell>[board.GetLength(0), board.GetLength(1)];
+            foreach (var c in info.AllCoordinates())
+                info[c.x, c.y] = GetInfo(board, c.x, c.y);
+            return info;
+        }
+
+        public static HashSet<Cell> GetInfo(Cell[,] board, int x, int y)
+        {
+            switch (board[x, y])
+            {
+                case Cell.Empty:
+                {
+                    var info = Enumerable.Range(1, 9).Cast<Cell>().ToHashSet();
+                    foreach (var value in GetAllRelevant(x, y).Select(c => board[c.x, c.y]).Where(value => value != Cell.Empty))
+                        info.Remove(value);
+                    return info;
+                }
+                default:
+                    return new HashSet<Cell> { board[x, y] };
+            }
         }
     }
 }
