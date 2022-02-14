@@ -18,32 +18,33 @@ namespace SudokuSolver.Solver.Dynamic
                 Initialize(context);
                 try
                 {
-                    TrySolve(context);
+                    InnerSolve(context);
                 }
                 catch
                 {
                     continue;
                 }
+                var info = context is IDictionary<string, object> dictionary
+                        && dictionary.TryGetValue("HashSetInfo", out var obj)
+                        && obj is HashSet<Cell>[,] infoObj
+                        ? infoObj
+                        : HashSetInfo.GetInfo(board);
+                if (info.AllCoordinates().Any(c => info[c.x, c.y].Count == 0))
+                    continue;
                 if (IsSolved(board))
                     yield return board;
                 else
                 {
                     //guess
-                    var info = context is IDictionary<string, object> dictionary 
-                        && dictionary.TryGetValue("HashSetInfo", out var obj) 
-                        && obj is HashSet<Cell>[,] infoObj
-                        ? infoObj
-                        : HashSetInfo.GetInfo(board);
-                    var guessInfo = info.AllCoordinates()
-                            .Select(c => (Coordinate: c, Info: info[c.x, c.y], Count: info[c.x, c.y].Count()))
-                            .Where(ci => ci.Count > 1)
+                    var ((x, y), options, _) = info.AllCoordinates()
+                            .Where(c => board[c.x, c.y] == Cell.Empty)
+                            .Select(c => (Coordinate: c, Info: info[c.x, c.y], info[c.x, c.y].Count))
                             .OrderBy(ci => ci.Count)
                             .First();
-                    var c = guessInfo.Coordinate;
-                    foreach (var option in guessInfo.Info)
+                    foreach (var option in options)
                     {
                         var newBoard = (Cell[,])board.Clone();
-                        newBoard[c.x, c.y] = option;
+                        newBoard[x, y] = option;
                         puzzles.Push(newBoard);
                     }
                 }
@@ -53,7 +54,7 @@ namespace SudokuSolver.Solver.Dynamic
 
         protected abstract void Initialize(dynamic context);
 
-        protected abstract void TrySolve(dynamic context);
+        protected abstract void InnerSolve(dynamic context);
 
         public static bool IsSolved(Cell[,] puzzle) =>
             puzzle.AllCoordinates().All(c => puzzle[c.x, c.y] != Cell.Empty);

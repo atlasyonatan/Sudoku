@@ -18,7 +18,7 @@ namespace SudokuSolver.Solver.Dynamic
                 foreach (var c1 in info.AllCoordinates().Where(c => board[c.x, c.y] == Cell.Empty))
                 {
                     var localInfo = info[c1.x, c1.y];
-                    var count = localInfo.Count();
+                    var count = localInfo.Count;
                     switch (count)
                     {
                         case 0:

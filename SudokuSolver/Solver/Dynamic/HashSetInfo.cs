@@ -22,16 +22,16 @@ namespace SudokuSolver.Solver.Dynamic
             //mark it on board
             board[c1.x, c1.y] = value;
             //eliminate on info
-            foreach (var c2 in GetAllRelevant(c1.x, c1.y))
-                info[c2.x, c2.y].Remove(board[c1.x, c1.y]);
+            foreach (var (x, y) in GetAllRelevant(c1.x, c1.y))
+                info[x, y].Remove(board[c1.x, c1.y]);
             info[c1.x, c1.y] = new HashSet<Cell> { value };
         }
 
         public static HashSet<Cell>[,] GetInfo(Cell[,] board)
         {
             var info = new HashSet<Cell>[board.GetLength(0), board.GetLength(1)];
-            foreach (var c in info.AllCoordinates())
-                info[c.x, c.y] = GetInfo(board, c.x, c.y);
+            foreach (var (x, y) in info.AllCoordinates())
+                info[x, y] = GetInfo(board, x, y);
             return info;
         }
 

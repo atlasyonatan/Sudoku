@@ -32,8 +32,8 @@ namespace SudokuSolver.Solver.Dynamic
                             .ToArray();
                         foreach (var grouping in groupings.Where(g => g.Count() == 1))
                         {
-                            var cellInfo = grouping.First();
-                            HashSetInfo.Mark(board, info, cellInfo.Coordinate, cellInfo.Value);
+                            var (coordinate, value) = grouping.First();
+                            HashSetInfo.Mark(board, info, coordinate, value);
                             changed = true;
                             context.Changed = true;
                         }

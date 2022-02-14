@@ -1,4 +1,5 @@
 ﻿using Sudoku;
+using SudokuSolver.Solver;
 using SudokuSolver.Solver.Dynamic;
 using System;
 using System.Diagnostics;
@@ -19,7 +20,8 @@ namespace SudokuSolver
             Console.WriteLine();
             var sw = new Stopwatch();
             sw.Start();
-            var solutions = new MySolver().Solve(puzzle);
+            ISolver solver = new CustomSolver(Array.Empty<Action<dynamic>>(), Array.Empty<Action<dynamic>>());
+            var solutions = solver.Solve(puzzle);
             foreach (var solution in solutions)
             {
                 sw.Stop();

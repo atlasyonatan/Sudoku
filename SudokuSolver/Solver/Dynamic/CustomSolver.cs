@@ -19,7 +19,7 @@ namespace SudokuSolver.Solver.Dynamic
                 init(context);
         }
 
-        protected override void TrySolve(dynamic context)
+        protected override void InnerSolve(dynamic context)
         {
             context.Changed = true;
             while (context.Changed)
