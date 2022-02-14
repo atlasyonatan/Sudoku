@@ -6,8 +6,8 @@ namespace SudokuSolver.Solver.Dynamic
 {
     public class CustomSolverBuilder
     {
-        protected HashSet<Action<dynamic>> _inits;
-        protected HashSet<Action<dynamic>> _solves;
+        protected HashSet<Action<dynamic>> _inits = new HashSet<Action<dynamic>>();
+        protected HashSet<Action<dynamic>> _solves = new HashSet<Action<dynamic>>();
 
         public CustomSolverBuilder AddSolveAction(params Action<dynamic>[] action)
         {

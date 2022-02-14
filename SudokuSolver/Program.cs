@@ -10,7 +10,7 @@ namespace SudokuSolver
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
             //link to generator website: https://qqwing.com/generate.html
             var filePath = @"D:\Repos\Sudoku\SudokuSolver\Puzzles\Sudoku1.txt";
