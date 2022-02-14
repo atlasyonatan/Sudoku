@@ -4,12 +4,12 @@ using System.Collections.Generic;
 using System.Linq;
 using static SudokuSolver.Array2D;
 
-namespace SudokuSolver.Solver.Dynamic
+namespace SudokuSolver.Solver.Dynamic.SolvingMethods
 {
     public static class GroupsFill
     {
         private static readonly Func<IEnumerable<IEnumerable<(int x, int y)>>>[] GroupsGetMethods = new Func<IEnumerable<IEnumerable<(int x, int y)>>>[] { AllRows, AllColumns, AllBoxes };
-        
+
         //check columns, rows, boxes for musts
         public static void Solve(dynamic context)
         {

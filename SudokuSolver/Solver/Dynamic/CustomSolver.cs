@@ -4,8 +4,12 @@ namespace SudokuSolver.Solver.Dynamic
 {
     public partial class CustomSolver : SolverBase
     {
-        private readonly Action<dynamic>[] _inits;
-        private readonly Action<dynamic>[] _solves;
+        private readonly Action<dynamic>[] _inits = Array.Empty<Action<dynamic>>();
+        private readonly Action<dynamic>[] _solves = Array.Empty<Action<dynamic>>();
+
+        public CustomSolver()
+        {
+        }
         public CustomSolver(Action<dynamic>[] initMethods, Action<dynamic>[] solvingMethods)
         {
             _solves = solvingMethods;

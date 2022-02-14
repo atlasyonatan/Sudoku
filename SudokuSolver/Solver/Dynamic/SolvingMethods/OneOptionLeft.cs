@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace SudokuSolver.Solver.Dynamic
+namespace SudokuSolver.Solver.Dynamic.SolvingMethods
 {
     public static class OneOptionLeft
     {

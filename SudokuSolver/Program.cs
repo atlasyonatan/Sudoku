@@ -1,6 +1,7 @@
 ﻿using Sudoku;
 using SudokuSolver.Solver;
 using SudokuSolver.Solver.Dynamic;
+using SudokuSolver.Solver.Dynamic.SolvingMethods;
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -20,8 +21,7 @@ namespace SudokuSolver
             Console.WriteLine();
             var sw = new Stopwatch();
             sw.Start();
-            ISolver solver = new CustomSolver(Array.Empty<Action<dynamic>>(), Array.Empty<Action<dynamic>>());
-            var solutions = solver.Solve(puzzle);
+            var solutions = CreateSolver().Solve(puzzle);
             foreach (var solution in solutions)
             {
                 sw.Stop();
@@ -33,5 +33,10 @@ namespace SudokuSolver
             sw.Stop();
             Console.ReadLine();
         }
+
+        private static ISolver CreateSolver() => new CustomSolverBuilder()
+                .AddInitAction(HashSetInfo.Init)
+                .AddSolveAction(OneOptionLeft.Solve, GroupsFill.Solve)
+                .Build();
     }
 }
