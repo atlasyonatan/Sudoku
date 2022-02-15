@@ -7,16 +7,6 @@ namespace SudokuSolver.Solver.Context
 {
     public static class HashSetInfo
     {
-        /// <summary>
-        /// Initializes a new <see cref="HashSet{Cell}"/> on context as 'HashSetInfo'
-        /// </summary>
-        /// <param name="context"></param>
-        public static void Init(dynamic context)
-        {
-            var board = (Cell[,])context.Board;
-            context.HashSetInfo = GetInfo(board);
-        }
-
         public static void Mark(Cell[,] board, HashSet<Cell>[,] info, (int x, int y) c1, Cell value)
         {
             //mark it on board
