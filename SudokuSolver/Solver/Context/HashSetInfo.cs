@@ -30,8 +30,13 @@ namespace SudokuSolver.Solver.Context
         public static HashSet<Cell>[,] GetInfo(Cell[,] board)
         {
             var info = new HashSet<Cell>[board.GetLength(0), board.GetLength(1)];
-            foreach (var (x, y) in info.AllCoordinates())
-                info[x, y] = GetInfo(board, x, y);
+            foreach (var (x, y) in board.AllCoordinates())
+                info[x, y] = board[x, y] == Cell.Empty
+                    ? Enumerable.Range(1, 9).Cast<Cell>().ToHashSet()
+                    : new HashSet<Cell> { board[x, y] };
+            foreach (var c in board.AllCoordinates().Where(c => board[c.x, c.y] != Cell.Empty))
+                foreach (var (x, y) in GetAllRelevant(c.x, c.y).Where(r => c != r))
+                    info[x, y].Remove(board[c.x, c.y]);
             return info;
         }
 
