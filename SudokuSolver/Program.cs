@@ -5,6 +5,7 @@ using SudokuSolver.Solver.Context.SolvingMethods;
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 
 namespace SudokuSolver
 {
@@ -44,7 +45,6 @@ namespace SudokuSolver
         }
 
         private static ISolver CreateSolver() => new CustomSolverBuilder()
-                .AddSolveAction(OneOptionLeft.Solve)
                 .AddSolveAction(GroupsFill.Solve)
                 .Build();
 
@@ -52,8 +52,8 @@ namespace SudokuSolver
         //{
         //    var board = new Cell[9, 9];
         //    var jagged = s.Split('\n').Select(row => row.Select(c => c - '0').ToArray()).ToArray();
-        //    foreach (var (x,y) in board.AllCoordinates())
-        //        board[x,y] = jagged[y][x] == 0 ? Cell.Empty : (Cell)jagged[y][x];
+        //    foreach (var (x, y) in board.AllCoordinates())
+        //        board[x, y] = jagged[y][x] == 0 ? Cell.Empty : (Cell)jagged[y][x];
         //    return board;
         //}
     }

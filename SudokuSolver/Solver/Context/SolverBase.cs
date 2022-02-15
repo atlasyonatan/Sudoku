@@ -8,17 +8,17 @@ namespace SudokuSolver.Solver.Context
     {
         public IEnumerable<Cell[,]> Solve(Cell[,] puzzle)
         {
-            var puzzles = new Stack<Cell[,]>();
-            puzzles.Push((Cell[,])puzzle.Clone());
-            while (puzzles.TryPop(out var board))
+            var puzzles = new Stack<PuzzleContext>();
+            puzzles.Push(new PuzzleContext()
             {
-                var info = HashSetInfo.GetInfo(board);
-                var context = new PuzzleContext()
-                {
-                    Board = board,
-                    Info = info,
-                    Changed = false
-                };
+                Board = (Cell[,])puzzle.Clone(),
+                Info = HashSetInfo.GetInfo(puzzle),
+                Changed = false
+            });
+            while (puzzles.TryPop(out var context))
+            {
+                var board = context.Board;
+                var info = context.Info;
                 Initialize(context);
                 InnerSolve(context);
                 if (info.AllCoordinates().Any(c => info[c.x, c.y].Count == 0))
@@ -35,9 +35,9 @@ namespace SudokuSolver.Solver.Context
                             .First();
                     foreach (var option in guessOptions)
                     {
-                        var newBoard = (Cell[,])board.Clone();
-                        newBoard[x, y] = option;
-                        puzzles.Push(newBoard);
+                        var nContext = context.Clone();
+                        nContext.Mark(x, y, option);
+                        puzzles.Push(nContext);
                     }
                 }
             }

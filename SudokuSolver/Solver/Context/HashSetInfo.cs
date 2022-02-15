@@ -7,16 +7,6 @@ namespace SudokuSolver.Solver.Context
 {
     public static class HashSetInfo
     {
-        public static void Mark(Cell[,] board, HashSet<Cell>[,] info, (int x, int y) c1, Cell value)
-        {
-            //mark it on board
-            board[c1.x, c1.y] = value;
-            //eliminate on info
-            foreach (var (x, y) in GetAllRelevant(c1.x, c1.y))
-                info[x, y].Remove(board[c1.x, c1.y]);
-            info[c1.x, c1.y] = new HashSet<Cell> { value };
-        }
-
         public static HashSet<Cell>[,] GetInfo(Cell[,] board)
         {
             var info = new HashSet<Cell>[board.GetLength(0), board.GetLength(1)];

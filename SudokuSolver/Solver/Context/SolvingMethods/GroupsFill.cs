@@ -32,10 +32,9 @@ namespace SudokuSolver.Solver.Context.SolvingMethods
                             .ToArray();
                         foreach (var grouping in groupings.Where(g => g.Count() == 1))
                         {
-                            var (coordinate, value) = grouping.First();
-                            HashSetInfo.Mark(board, info, coordinate, value);
+                            var ((x,y), value) = grouping.First();
+                            context.Mark(x, y, value);
                             changed = true;
-                            context.Changed = true;
                         }
                     }
                 }
