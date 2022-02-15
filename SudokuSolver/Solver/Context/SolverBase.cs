@@ -12,42 +12,28 @@ namespace SudokuSolver.Solver.Context
             puzzles.Push((Cell[,])puzzle.Clone());
             while (puzzles.TryPop(out var board))
             {
+                var info = HashSetInfo.GetInfo(board);
                 var context = new PuzzleContext()
                 {
                     Board = board,
-                    Info = HashSetInfo.GetInfo(board),
+                    Info = info,
                     Changed = false
                 };
-                //dynamic context = new ExpandoObject();
-                //context.Board = board;
                 Initialize(context);
-                try
-                {
-                    InnerSolve(context);
-                }
-                catch
-                {
-
-                }
-                var info = context.Info;
-                //var info = context is IDictionary<string, object> dictionary
-                //        && dictionary.TryGetValue("HashSetInfo", out var obj)
-                //        && obj is HashSet<Cell>[,] infoObj
-                //        ? infoObj
-                //        : HashSetInfo.GetInfo(board);
+                InnerSolve(context);
                 if (info.AllCoordinates().Any(c => info[c.x, c.y].Count == 0))
                     continue;
-                if (IsSolved(board))
+                if (board.IsSolved())
                     yield return board;
                 else
                 {
                     //guess
-                    var ((x, y), options, _) = info.AllCoordinates()
+                    var ((x, y), guessOptions) = info.AllCoordinates()
                             .Where(c => board[c.x, c.y] == Cell.Empty)
-                            .Select(c => (Coordinate: c, Info: info[c.x, c.y], info[c.x, c.y].Count))
-                            .OrderBy(ci => ci.Count)
+                            .Select(c => (Coordinate: c, Info: info[c.x, c.y]))
+                            .OrderBy(ci => ci.Info.Count)
                             .First();
-                    foreach (var option in options)
+                    foreach (var option in guessOptions)
                     {
                         var newBoard = (Cell[,])board.Clone();
                         newBoard[x, y] = option;
@@ -61,8 +47,5 @@ namespace SudokuSolver.Solver.Context
         protected abstract void Initialize(PuzzleContext context);
 
         protected abstract void InnerSolve(PuzzleContext context);
-
-        public static bool IsSolved(Cell[,] puzzle) =>
-            puzzle.AllCoordinates().All(c => puzzle[c.x, c.y] != Cell.Empty);
     }
 }

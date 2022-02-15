@@ -14,19 +14,15 @@ namespace SudokuSolver.Solver.Context.SolvingMethods
             while (changed)
             {
                 changed = false;
-                foreach (var c1 in info.AllCoordinates().Where(c => board[c.x, c.y] == Cell.Empty))
+                foreach (var (x, y) in info.AllCoordinates().Where(c => board[c.x, c.y] == Cell.Empty))
                 {
-                    var localInfo = info[c1.x, c1.y];
-                    var count = localInfo.Count;
-                    switch (count)
+                    var localInfo = info[x, y];
+                    if (localInfo.Count == 1)
                     {
-                        case 0:
-                            throw new Exception($"Cell can't have 0 avalible values (x={c1.x},y={c1.y})");
-                        case 1:
-                            HashSetInfo.Mark(board, info, c1, localInfo.First());
-                            changed = true;
-                            context.Changed = true;
-                            break;
+                        HashSetInfo.Mark(board, info, (x, y), localInfo.First());
+                        changed = true;
+                        context.Changed = true;
+                        break;
                     }
                 }
             }
