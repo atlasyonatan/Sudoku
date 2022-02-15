@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using static SudokuSolver.Array2D;
 
-namespace SudokuSolver.Solver.Dynamic
+namespace SudokuSolver.Solver.Context
 {
     public static class HashSetInfo
     {
@@ -40,12 +40,12 @@ namespace SudokuSolver.Solver.Dynamic
             switch (board[x, y])
             {
                 case Cell.Empty:
-                {
-                    var info = Enumerable.Range(1, 9).Cast<Cell>().ToHashSet();
-                    foreach (var value in GetAllRelevant(x, y).Select(c => board[c.x, c.y]).Where(value => value != Cell.Empty))
-                        info.Remove(value);
-                    return info;
-                }
+                    {
+                        var info = Enumerable.Range(1, 9).Cast<Cell>().ToHashSet();
+                        foreach (var value in GetAllRelevant(x, y).Select(c => board[c.x, c.y]).Where(value => value != Cell.Empty))
+                            info.Remove(value);
+                        return info;
+                    }
                 default:
                     return new HashSet<Cell> { board[x, y] };
             }

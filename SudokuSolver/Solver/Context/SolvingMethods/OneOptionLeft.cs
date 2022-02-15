@@ -1,16 +1,15 @@
 ﻿using Sudoku;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 
-namespace SudokuSolver.Solver.Dynamic.SolvingMethods
+namespace SudokuSolver.Solver.Context.SolvingMethods
 {
     public static class OneOptionLeft
     {
-        public static void Solve(dynamic context)
+        public static void Solve(PuzzleContext context)
         {
-            var board = (Cell[,])context.Board;
-            var info = (HashSet<Cell>[,])context.HashSetInfo;
+            var board = context.Board;
+            var info = context.Info;
             var changed = true;
             while (changed)
             {

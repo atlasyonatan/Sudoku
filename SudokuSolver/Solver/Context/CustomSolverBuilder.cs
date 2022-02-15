@@ -2,35 +2,35 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace SudokuSolver.Solver.Dynamic
+namespace SudokuSolver.Solver.Context
 {
     public class CustomSolverBuilder
     {
-        protected HashSet<Action<dynamic>> _inits = new HashSet<Action<dynamic>>();
-        protected HashSet<Action<dynamic>> _solves = new HashSet<Action<dynamic>>();
+        protected HashSet<Action<PuzzleContext>> _inits = new();
+        protected HashSet<Action<PuzzleContext>> _solves = new();
 
-        public CustomSolverBuilder AddSolveAction(params Action<dynamic>[] action)
+        public CustomSolverBuilder AddSolveAction(params Action<PuzzleContext>[] action)
         {
             foreach (var item in action)
                 _solves.Add(item);
             return this;
         }
 
-        public CustomSolverBuilder AddInitAction(params Action<dynamic>[] action)
+        public CustomSolverBuilder AddInitAction(params Action<PuzzleContext>[] action)
         {
             foreach (var item in action)
                 _inits.Add(item);
             return this;
         }
 
-        public CustomSolverBuilder RemoveSolveAction(params Action<dynamic>[] action)
+        public CustomSolverBuilder RemoveSolveAction(params Action<PuzzleContext>[] action)
         {
             foreach (var item in action)
                 _solves.Remove(item);
             return this;
         }
 
-        public CustomSolverBuilder RemoveInitAction(params Action<dynamic>[] action)
+        public CustomSolverBuilder RemoveInitAction(params Action<PuzzleContext>[] action)
         {
             foreach (var item in action)
                 _inits.Remove(item);
