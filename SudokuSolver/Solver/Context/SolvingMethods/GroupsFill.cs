@@ -4,17 +4,17 @@ using System.Collections.Generic;
 using System.Linq;
 using static SudokuSolver.Array2D;
 
-namespace SudokuSolver.Solver.Dynamic.SolvingMethods
+namespace SudokuSolver.Solver.Context.SolvingMethods
 {
     public static class GroupsFill
     {
         private static readonly Func<IEnumerable<IEnumerable<(int x, int y)>>>[] GroupsGetMethods = new Func<IEnumerable<IEnumerable<(int x, int y)>>>[] { AllRows, AllColumns, AllBoxes };
 
         //check columns, rows, boxes for musts
-        public static void Solve(dynamic context)
+        public static void Solve(PuzzleContext context)
         {
-            var info = (HashSet<Cell>[,])context.HashSetInfo;
-            var board = (Cell[,])context.Board;
+            var board = context.Board;
+            var info = context.Info;
             var changed = true;
             while (changed)
             {

@@ -1,9 +1,8 @@
 ﻿using Sudoku;
 using System.Collections.Generic;
-using System.Dynamic;
 using System.Linq;
 
-namespace SudokuSolver.Solver.Dynamic
+namespace SudokuSolver.Solver.Context
 {
     public abstract class SolverBase : ISolver
     {
@@ -13,8 +12,14 @@ namespace SudokuSolver.Solver.Dynamic
             puzzles.Push((Cell[,])puzzle.Clone());
             while (puzzles.TryPop(out var board))
             {
-                dynamic context = new ExpandoObject();
-                context.Board = board;
+                var context = new PuzzleContext()
+                {
+                    Board = board,
+                    Info = HashSetInfo.GetInfo(board),
+                    Changed = false
+                };
+                //dynamic context = new ExpandoObject();
+                //context.Board = board;
                 Initialize(context);
                 try
                 {
@@ -22,13 +27,14 @@ namespace SudokuSolver.Solver.Dynamic
                 }
                 catch
                 {
-                    
+
                 }
-                var info = context is IDictionary<string, object> dictionary
-                        && dictionary.TryGetValue("HashSetInfo", out var obj)
-                        && obj is HashSet<Cell>[,] infoObj
-                        ? infoObj
-                        : HashSetInfo.GetInfo(board);
+                var info = context.Info;
+                //var info = context is IDictionary<string, object> dictionary
+                //        && dictionary.TryGetValue("HashSetInfo", out var obj)
+                //        && obj is HashSet<Cell>[,] infoObj
+                //        ? infoObj
+                //        : HashSetInfo.GetInfo(board);
                 if (info.AllCoordinates().Any(c => info[c.x, c.y].Count == 0))
                     continue;
                 if (IsSolved(board))
@@ -52,9 +58,9 @@ namespace SudokuSolver.Solver.Dynamic
             yield break;
         }
 
-        protected abstract void Initialize(dynamic context);
+        protected abstract void Initialize(PuzzleContext context);
 
-        protected abstract void InnerSolve(dynamic context);
+        protected abstract void InnerSolve(PuzzleContext context);
 
         public static bool IsSolved(Cell[,] puzzle) =>
             puzzle.AllCoordinates().All(c => puzzle[c.x, c.y] != Cell.Empty);

@@ -1,29 +1,29 @@
 ﻿using System;
 
-namespace SudokuSolver.Solver.Dynamic
+namespace SudokuSolver.Solver.Context
 {
     public partial class CustomSolver : SolverBase
     {
-        private readonly Action<dynamic>[] _inits = Array.Empty<Action<dynamic>>();
-        private readonly Action<dynamic>[] _solves = Array.Empty<Action<dynamic>>();
+        private readonly Action<PuzzleContext>[] _inits = Array.Empty<Action<PuzzleContext>>();
+        private readonly Action<PuzzleContext>[] _solves = Array.Empty<Action<PuzzleContext>>();
 
         public CustomSolver()
         {
         }
-        public CustomSolver(Action<dynamic>[] initMethods, Action<dynamic>[] solvingMethods)
+        public CustomSolver(Action<PuzzleContext>[] initMethods, Action<PuzzleContext>[] solvingMethods)
         {
             _solves = solvingMethods;
             _inits = initMethods;
         }
 
 
-        protected override void Initialize(dynamic context)
+        protected override void Initialize(PuzzleContext context)
         {
             foreach (var init in _inits)
                 init(context);
         }
 
-        protected override void InnerSolve(dynamic context)
+        protected override void InnerSolve(PuzzleContext context)
         {
             context.Changed = true;
             while (context.Changed)
