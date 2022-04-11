@@ -14,7 +14,7 @@ namespace SudokuSolver
         static void Main()
         {
             ///link to generator website: https://qqwing.com/generate.html
-            var filePath = @"D:\Repos\Sudoku\SudokuSolver\Puzzles\Sudoku1.txt";
+            var filePath = @"D:\Repos\Sudoku\SudokuSolver\Puzzles\Expert1.txt";
             var puzzleString = File.ReadAllText(filePath);
             var puzzle = Serialize.FromBoardString(puzzleString);
             //var filePath = @"D:\Repos\Sudoku\SudokuSolver\Puzzles\Omer.txt";
